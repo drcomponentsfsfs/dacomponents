@@ -12,6 +12,12 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 :root[data-theme="dark"]{--bg:#2a1f14;--card:#3b2c1c;--ink:#f3e3c6;--red:#ff6a52;--tape:#b8a640;--line:#a67c47}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
+<audio id="bgm" src="music.mp3" loop></audio>
+<button id="mbtn" style="position:fixed;bottom:16px;right:16px;font-size:1.3rem;padding:10px 14px;z-index:9">🎵 Play music</button>
+<script>
+var a=document.getElementById("bgm"),b=document.getElementById("mbtn");
+b.onclick=function(){if(a.paused){a.play();b.textContent="🔇 Mute music"}else{a.pause();b.textContent="🎵 Play music"}};
+</script>
 body{margin:0;background:var(--bg);color:var(--ink);font:1.15rem/1.45 "Patrick Hand","Comic Sans MS",cursive,sans-serif}
 h1,h2,.imp{font-family:Anton,Impact,"Arial Narrow",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
 main{max-width:760px;margin:0 auto;padding:20px 16px 48px}
@@ -91,8 +97,8 @@ footer{text-align:center;font-size:.95rem;opacity:.8;padding-top:24px}
 <form id="f">
 <label>Name<input id="n" name="name" required autocomplete="name"></label>
 <label>Your email (so I can reply)<input id="e" name="email" type="email" required autocomplete="email"></label>
-<label>Class (so I can find you)<input id="c" name="class" required placeholder="e.g. 9B"></label>
-<label>Which model do you want?<input id="p" name="model" required placeholder="e.g. RTX 4070, or DDR5 32GB"></label>
+<label>Class (so I can find you)<input id="c" name="class" required placeholder="e.g. 7A"></label>
+<label>Which component do you want?<input id="p" name="Component" required placeholder="e.g. RTX 4070, or DDR5 32GB"></label>
 <label>Quantity<input id="q" name="quantity" type="number" min="1" max="5" value="1"></label>
 <label>Notes (optional)<textarea id="m" name="notes" rows="2" placeholder="Colour, RGB level, etc."></textarea></label>
 <button type="submit">Send request</button>
