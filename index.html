@@ -12,11 +12,23 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 :root[data-theme="dark"]{--bg:#2a1f14;--card:#3b2c1c;--ink:#f3e3c6;--red:#ff6a52;--tape:#b8a640;--line:#a67c47}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-<audio id="bgm" src="music.mp3" loop></audio>
 <button id="mbtn" style="position:fixed;bottom:16px;right:16px;font-size:1.3rem;padding:10px 14px;z-index:9">🎵 Play music</button>
 <script>
-var a=document.getElementById("bgm"),b=document.getElementById("mbtn");
-b.onclick=function(){if(a.paused){a.play();b.textContent="🔇 Mute music"}else{a.pause();b.textContent="🎵 Play music"}};
+(function(){
+var ctx=null,timer,on=false,b=document.getElementById("mbtn");
+var N={C:523.25,D:587.33,E:659.25,G:783.99,A:880,c:1046.5,R:0};
+var tune="E G A G E D C R E G A c A G E R D E G E D C R C D E G E D C R".split(" ");
+var beat=0.3;
+function note(f,t){if(!f)return;var o=ctx.createOscillator(),g=ctx.createGain(),v=ctx.createOscillator(),vg=ctx.createGain();
+o.type="sine";o.frequency.value=f;v.frequency.value=6;vg.gain.value=5;v.connect(vg);vg.connect(o.frequency);
+g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.18,t+0.04);g.gain.linearRampToValueAtTime(0,t+beat*0.95);
+o.connect(g);g.connect(ctx.destination);o.start(t);v.start(t);o.stop(t+beat);v.stop(t+beat);}
+function loop(){var t=ctx.currentTime+0.05;tune.forEach(function(n,k){note(N[n],t+k*beat);});timer=setTimeout(loop,tune.length*beat*1000);}
+b.onclick=function(){
+if(!on){ctx=new (window.AudioContext||window.webkitAudioContext)();on=true;loop();b.textContent="🔇 Mute music";}
+else{on=false;clearTimeout(timer);ctx.close();ctx=null;b.textContent="🎵 Play music";}
+};
+})();
 </script>
 body{margin:0;background:var(--bg);color:var(--ink);font:1.15rem/1.45 "Patrick Hand","Comic Sans MS",cursive,sans-serif}
 h1,h2,.imp{font-family:Anton,Impact,"Arial Narrow",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
