@@ -78,7 +78,7 @@ footer{text-align:center;font-size:.95rem;opacity:.8;padding-top:24px}
 <h3>NoForce RTX 5090 Ti Super</h3>
 <div class="price"><span class="new">Price on request</span></div>
 <p class="note">Tell me the model, I reply with the price.</p>
-<ul><li>VRAM: 0 GB (very efficient)</li><li>Fans: 2 (hand-drawn)</li><li>RGB: highlighter</li><li>Runs Cyberpunk: in your imagination</li></ul>
+<ul><li>VRAM: 0 GB (very efficient)</li><li>Fans: 2 (hand-drawn)</li><li>RGB: highlighter</li><li>Runs Crysis: in your imagination</li></ul>
 </article>
 <article class="prod">
 <h3>CorsAir DDR5 RAM</h3>
@@ -100,6 +100,8 @@ footer{text-align:center;font-size:.95rem;opacity:.8;padding-top:24px}
 <div id="ok" role="status"></div>
 <p class="note">How it works: you send a request, I reply by email with the total. Cash on delivery. “Delivery” means lunch break outside the school washroom. It’s a meme project, so no real parts, no refunds, no RAM.</p>
 </form>
+
+<p style="text-align:center"><a href="index.html" download="dacomponent.html" style="display:inline-block;font:1.5rem Anton,Impact,sans-serif;text-transform:uppercase;background:var(--red);color:#fff;border:3px solid var(--ink);padding:12px 18px;text-decoration:none;box-shadow:4px 4px 0 var(--ink)">Download this site</a></p>
 
 <footer>DACOMPONENT.com is a school meme project.</footer>
 </main>
@@ -131,14 +133,23 @@ document.getElementById("mt").addEventListener("click",function(){
 <script>
 (function(){
 var ctx=null,timer,on=false,b=document.getElementById("mbtn");
-var N={C:523.25,D:587.33,E:659.25,G:783.99,A:880,c:1046.5,R:0};
-var tune="E E E A G F c A A F G C C E E G c F G".split(" ");
-var beat=0.3;
-function note(f,t){if(!f)return;var o=ctx.createOscillator(),g=ctx.createGain(),v=ctx.createOscillator(),vg=ctx.createGain();
-o.type="sine";o.frequency.value=f;v.frequency.value=6;vg.gain.value=5;v.connect(vg);vg.connect(o.frequency);
-g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.18,t+0.04);g.gain.linearRampToValueAtTime(0,t+beat*0.95);
-o.connect(g);g.connect(ctx.destination);o.start(t);v.start(t);o.stop(t+beat);v.stop(t+beat);}
-function loop(){var t=ctx.currentTime+0.05;tune.forEach(function(n,k){note(N[n],t+k*beat);});timer=setTimeout(loop,tune.length*beat*1000);}
+var S=0.085;
+function fr(m){return 440*Math.pow(2,(m-69)/12);}
+var C={
+ a:{arp:[56,61,64,68,73,76,80,85],hit:[49,61,64,68]},
+ d:{arp:[56,60,63,66,68,72,75,78],hit:[44,60,63,66]},
+ f:{arp:[54,57,61,66,69,73,78,81],hit:[42,57,61,66]}
+};
+var prog=["a","d","a","d","a","f","d","a"];
+function tone(m,t,dur,vol){var o=ctx.createOscillator(),g=ctx.createGain();o.type="triangle";o.frequency.value=fr(m);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.001,t+dur);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+dur);}
+function loop(){
+var t=ctx.currentTime+0.05;
+prog.forEach(function(k,i){var c=C[k],t0=t+i*16*S;
+c.arp.forEach(function(m,j){tone(m,t0+j*S,0.3,0.05+j*0.01);});
+[8,12].forEach(function(s){c.hit.forEach(function(m){tone(m,t0+s*S,0.6,0.1);});});
+});
+timer=setTimeout(loop,prog.length*16*S*1000);
+}
 b.onclick=function(){
 if(!on){ctx=new (window.AudioContext||window.webkitAudioContext)();on=true;loop();b.textContent="🔇 Mute music";}
 else{on=false;clearTimeout(timer);ctx.close();ctx=null;b.textContent="🎵 Play music";}
