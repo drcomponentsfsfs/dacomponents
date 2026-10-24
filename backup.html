@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backup</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #101114;
+  color: #eeeeee;
+  font-family: Consolas, monospace;
+}
+
+#login {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+h2 {
+  font-weight: normal;
+  letter-spacing: 2px;
+}
+
+input, button {
+  font: inherit;
+  padding: 13px;
+  border: 1px solid #383a40;
+  border-radius: 5px;
+  background: #191a20;
+  color: white;
+}
+
+input {
+  width: min(340px, 90vw);
+  margin: 12px 0;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+#error {
+  color: #ff7777;
+  min-height: 20px;
+  font-size: 13px;
+}
+
+#notepad {
+  display: none;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 22px;
+  border-bottom: 1px solid #303238;
+}
+
+header h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+#status {
+  color: #83d6a0;
+  font-size: 12px;
+}
+
+#editor {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 62px);
+  padding: 24px;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  resize: none;
+  background: #101114;
+  color: #eeeeee;
+  font: 15px/1.7 Consolas, monospace;
+  tab-size: 4;
+}
+</style>
+</head>
+
+<body>
+
+<section id="login">
+  <h2>ACCESS REQUIRED</h2>
+
+  <form id="loginForm">
+    <input
+      id="code"
+      type="password"
+      placeholder="Enter access code"
+      autocomplete="off"
+      required
+      autofocus
+    >
+    <button type="submit">Enter</button>
+  </form>
+
+  <p id="error"></p>
+</section>
+
+<section id="notepad">
+  <header>
+    <h2>Notepad</h2>
+    <span id="status">Loading...</span>
+  </header>
+
+  <textarea
+    id="editor"
+    placeholder="Start writing..."
+    spellcheck="false"
+  ></textarea>
+</section>
+
+<script>
+/*
+  DEMO ONLY:
+  A code stored in client-side JavaScript is NOT secret.
+  Use server-side authentication for actual privacy.
+*/
+const ACCESS_CODE = "REPLACE_WITH_YOUR_CODE";
+
+const login = document.getElementById("login");
+const loginForm = document.getElementById("loginForm");
+const codeInput = document.getElementById("code");
+const errorMessage = document.getElementById("error");
+const notepad = document.getElementById("notepad");
+const editor = document.getElementById("editor");
+const status = document.getElementById("status");
+
+let db = null;
+let saveTimer = null;
+let opened = false;
+
+loginForm.addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (codeInput.value !== ACCESS_CODE) {
+    errorMessage.textContent = "Incorrect code.";
+    codeInput.select();
+    return;
+  }
+
+  opened = true;
+  login.style.display = "none";
+  notepad.style.display = "block";
+
+  openStorage();
+});
+
+function openStorage() {
+  status.textContent = "Opening storage...";
+
+  const request = indexedDB.open("BackupNotepadDB", 1);
+
+  request.onupgradeneeded = () => {
+    const database = request.result;
+
+    if (!database.objectStoreNames.contains("notes")) {
+      database.createObjectStore("notes");
+    }
+  };
+
+  request.onsuccess = () => {
+    db = request.result;
+
+    const tx = db.transaction("notes", "readonly");
+    const get = tx.objectStore("notes").get("main");
+
+    get.onsuccess = () => {
+      editor.value = get.result || "";
+      status.textContent = "Ready";
+      editor.focus();
+    };
+
+    get.onerror = () => {
+      status.textContent = "Could not load notes";
+    };
+  };
+
+  request.onerror = () => {
+    status.textContent = "Storage unavailable";
+  };
+}
+
+editor.addEventListener("input", () => {
+  status.textContent = "Saving...";
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNotes, 300);
+});
+
+function saveNotes() {
+  if (!db || !opened) {
+    status.textContent = "Not saved";
+    return;
+  }
+
+  const tx = db.transaction("notes", "readwrite");
+  tx.objectStore("notes").put(editor.value, "main");
+
+  tx.oncomplete = () => {
+    status.textContent = "All changes saved";
+  };
+
+  tx.onerror = () => {
+    status.textContent = "Save failed";
+  };
+}
+
+window.addEventListener("pagehide", () => {
+  if (!db || !opened) return;
+
+  clearTimeout(saveTimer);
+
+  if (saveTimer !== null || editor.value) {
+    saveNotes();
+  }
+});
+</script>
+
+</body>
+</html>
