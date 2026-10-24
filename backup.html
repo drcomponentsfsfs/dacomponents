@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,92 +7,131 @@
 <title>Backup</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   background: #101114;
-  color: #eeeeee;
+  color: #eee;
   font-family: Consolas, monospace;
 }
+
+button, input, select {
+  font: inherit;
+  color: #eee;
+  background: #1b1c22;
+  border: 1px solid #383a43;
+  border-radius: 5px;
+  padding: 9px;
+}
+
+button { cursor: pointer; }
+button:hover { background: #30323a; }
 
 #login {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  gap: 12px;
   padding: 20px;
 }
 
-h2 {
-  font-weight: normal;
-  letter-spacing: 2px;
-}
+#login input { width: min(340px, 90vw); }
+#error { color: #ff7777; min-height: 18px; }
 
-input, button {
-  font: inherit;
-  padding: 13px;
-  border: 1px solid #383a40;
-  border-radius: 5px;
-  background: #191a20;
-  color: white;
-}
-
-input {
-  width: min(340px, 90vw);
-  margin: 12px 0;
-  outline: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-#error {
-  color: #ff7777;
-  min-height: 20px;
-  font-size: 13px;
-}
-
-#notepad {
-  display: none;
-}
+#app { display: none; }
 
 header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 16px 22px;
+  padding: 18px;
   border-bottom: 1px solid #303238;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-header h2 {
-  margin: 0;
-  font-size: 17px;
+h2 { margin: 0; font-size: 19px; }
+#status { color: #83d6a0; font-size: 12px; }
+
+main { padding: 18px; }
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
-#status {
-  color: #83d6a0;
-  font-size: 12px;
+#search { flex: 1; min-width: 180px; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
-#editor {
+.stat {
+  border: 1px solid #303238;
+  border-radius: 8px;
+  padding: 16px;
+  background: #17181d;
+}
+
+.stat span {
   display: block;
+  color: #aaa;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.stat strong { font-size: 21px; }
+
+.table-wrap {
+  overflow: auto;
+  border: 1px solid #303238;
+  border-radius: 7px;
+}
+
+table {
   width: 100%;
-  height: calc(100vh - 62px);
-  padding: 24px;
-  border: 0;
-  border-radius: 0;
-  outline: none;
-  resize: none;
-  background: #101114;
-  color: #eeeeee;
-  font: 15px/1.7 Consolas, monospace;
-  tab-size: 4;
+  min-width: 1050px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  border-bottom: 1px solid #303238;
+  border-right: 1px solid #25262c;
+  text-align: left;
+}
+
+th {
+  background: #202127;
+  color: #bbb;
+  position: sticky;
+  top: 0;
+}
+
+td input, td select {
+  width: 100%;
+  min-width: 90px;
+}
+
+td .money {
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.delete { color: #ff9999; }
+
+footer {
+  color: #999;
+  font-size: 12px;
+  padding-top: 16px;
 }
 </style>
 </head>
@@ -99,8 +139,7 @@ header h2 {
 <body>
 
 <section id="login">
-  <h2>ACCESS REQUIRED</h2>
-
+  <h2>BACKUP ACCESS</h2>
   <form id="loginForm">
     <input
       id="code"
@@ -112,126 +151,416 @@ header h2 {
     >
     <button type="submit">Enter</button>
   </form>
-
-  <p id="error"></p>
+  <div id="error"></div>
 </section>
 
-<section id="notepad">
+<section id="app">
   <header>
-    <h2>Notepad</h2>
-    <span id="status">Loading...</span>
+    <h2>Sales Log</h2>
+    <span id="status">Starting...</span>
   </header>
 
-  <textarea
-    id="editor"
-    placeholder="Start writing..."
-    spellcheck="false"
-  ></textarea>
+  <main>
+    <div class="stats">
+      <div class="stat">
+        <span>Total orders</span>
+        <strong id="orderCount">0</strong>
+      </div>
+      <div class="stat">
+        <span>Total sales</span>
+        <strong id="totalSales">0.00</strong>
+      </div>
+      <div class="stat">
+        <span>Amount paid</span>
+        <strong id="totalPaid">0.00</strong>
+      </div>
+      <div class="stat">
+        <span>Outstanding</span>
+        <strong id="outstanding">0.00</strong>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <button id="add">+ Add Sale</button>
+      <button id="export">Export CSV</button>
+      <button id="backup">Download Backup</button>
+      <button id="import">Import Backup</button>
+      <input id="file" type="file" accept=".json" hidden>
+      <input id="search" type="search"
+             placeholder="Search buyers, items, notes...">
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Buyer</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price Each</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Paid Amount</th>
+            <th>Notes</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <footer>
+      Records autosave in this browser. Export backups regularly.
+    </footer>
+  </main>
 </section>
 
 <script>
-/*
-  DEMO ONLY:
-  A code stored in client-side JavaScript is NOT secret.
-  Use server-side authentication for actual privacy.
-*/
+"use strict";
+
+// DEMO ACCESS ONLY: this code is visible to anyone inspecting the page.
+// Client-side passwords do not provide real security.
 const ACCESS_CODE = "JGYVDCWHGIJOEIVJAGJASTRA";
 
-const login = document.getElementById("login");
-const loginForm = document.getElementById("loginForm");
-const codeInput = document.getElementById("code");
-const errorMessage = document.getElementById("error");
-const notepad = document.getElementById("notepad");
-const editor = document.getElementById("editor");
-const status = document.getElementById("status");
+const $ = id => document.getElementById(id);
 
 let db = null;
+let sales = [];
 let saveTimer = null;
-let opened = false;
+let dirty = false;
 
-loginForm.addEventListener("submit", event => {
+$("loginForm").addEventListener("submit", event => {
   event.preventDefault();
 
-  if (codeInput.value !== ACCESS_CODE) {
-    errorMessage.textContent = "Incorrect code.";
-    codeInput.select();
+  if ($("code").value !== ACCESS_CODE) {
+    $("error").textContent = "Incorrect code.";
+    $("code").select();
     return;
   }
 
-  opened = true;
-  login.style.display = "none";
-  notepad.style.display = "block";
-
-  openStorage();
+  $("login").style.display = "none";
+  $("app").style.display = "block";
+  openDatabase();
 });
 
-function openStorage() {
-  status.textContent = "Opening storage...";
+function openDatabase() {
+  $("status").textContent = "Opening storage...";
 
-  const request = indexedDB.open("BackupNotepadDB", 1);
+  const request = indexedDB.open("SalesLogDatabase", 1);
 
   request.onupgradeneeded = () => {
     const database = request.result;
-
-    if (!database.objectStoreNames.contains("notes")) {
-      database.createObjectStore("notes");
-    }
+    database.createObjectStore("data");
   };
 
   request.onsuccess = () => {
     db = request.result;
 
-    const tx = db.transaction("notes", "readonly");
-    const get = tx.objectStore("notes").get("main");
+    const tx = db.transaction("data", "readonly");
+    const get = tx.objectStore("data").get("sales");
 
     get.onsuccess = () => {
-      editor.value = get.result || "";
-      status.textContent = "Ready";
-      editor.focus();
+      sales = Array.isArray(get.result) ? get.result : [];
+      render();
+      $("status").textContent = "Ready";
     };
 
     get.onerror = () => {
-      status.textContent = "Could not load notes";
+      $("status").textContent = "Could not load records";
     };
   };
 
   request.onerror = () => {
-    status.textContent = "Storage unavailable";
+    $("status").textContent = "Storage unavailable";
   };
 }
 
-editor.addEventListener("input", () => {
-  status.textContent = "Saving...";
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveNotes, 300);
-});
+function newSale() {
+  return {
+    id: crypto.randomUUID(),
+    date: new Date().toISOString().slice(0, 10),
+    buyer: "",
+    item: "",
+    quantity: "1",
+    price: "0",
+    payment: "Unpaid",
+    paid: "0",
+    notes: ""
+  };
+}
 
-function saveNotes() {
-  if (!db || !opened) {
-    status.textContent = "Not saved";
-    return;
+function number(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.max(0, n) : 0;
+}
+
+function total(sale) {
+  return number(sale.quantity) * number(sale.price);
+}
+
+function money(value) {
+  return number(value).toFixed(2);
+}
+
+function paidAmount(sale) {
+  if (sale.payment === "Paid") return total(sale);
+  if (sale.payment === "Refunded") return 0;
+  return Math.min(number(sale.paid), total(sale));
+}
+
+function el(tag, text) {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+function inputCell(row, sale, key, type = "text") {
+  const td = el("td");
+  const input = el("input");
+  input.type = type;
+  input.value = sale[key] ?? "";
+
+  if (type === "number") {
+    input.min = "0";
+    input.step = "any";
   }
 
-  const tx = db.transaction("notes", "readwrite");
-  tx.objectStore("notes").put(editor.value, "main");
+  input.addEventListener("input", () => {
+    sale[key] = input.value;
+
+    if (key === "payment" && input.value === "Paid") {
+      sale.paid = String(total(sale));
+    }
+
+    dirty = true;
+    updateRow(row, sale);
+    updateStats();
+    scheduleSave();
+  });
+
+  td.appendChild(input);
+  return td;
+}
+
+function updateRow(row, sale) {
+  row.querySelector(".total").textContent = money(total(sale));
+  row.querySelector(".paid").textContent = money(paidAmount(sale));
+}
+
+function render() {
+  const tbody = $("rows");
+  tbody.replaceChildren();
+
+  const query = $("search").value.trim().toLowerCase();
+
+  sales.forEach(sale => {
+    const searchable = [
+      sale.date, sale.buyer, sale.item,
+      sale.payment, sale.notes
+    ].join(" ").toLowerCase();
+
+    if (query && !searchable.includes(query)) return;
+
+    const row = el("tr");
+
+    row.appendChild(inputCell(row, sale, "date", "date"));
+    row.appendChild(inputCell(row, sale, "buyer"));
+    row.appendChild(inputCell(row, sale, "item"));
+    row.appendChild(inputCell(row, sale, "quantity", "number"));
+    row.appendChild(inputCell(row, sale, "price", "number"));
+
+    const totalCell = el("td");
+    totalCell.className = "total money";
+    row.appendChild(totalCell);
+
+    const paymentCell = el("td");
+    const payment = el("select");
+
+    ["Unpaid", "Partially paid", "Paid", "Refunded"]
+      .forEach(value => {
+        const option = el("option", value);
+        option.value = value;
+        payment.appendChild(option);
+      });
+
+    payment.value = sale.payment || "Unpaid";
+    payment.addEventListener("change", () => {
+      sale.payment = payment.value;
+      if (sale.payment === "Paid") sale.paid = String(total(sale));
+      dirty = true;
+      updateRow(row, sale);
+      updateStats();
+      scheduleSave();
+      render();
+    });
+
+    paymentCell.appendChild(payment);
+    row.appendChild(paymentCell);
+
+    const paidCell = inputCell(row, sale, "paid", "number");
+    paidCell.classList.add("paid-input");
+    row.appendChild(paidCell);
+
+    const notesCell = inputCell(row, sale, "notes");
+    row.appendChild(notesCell);
+
+    const actionCell = el("td");
+    const del = el("button", "Delete");
+    del.className = "delete";
+
+    del.addEventListener("click", () => {
+      if (!confirm("Delete this sale permanently?")) return;
+      sales = sales.filter(item => item.id !== sale.id);
+      dirty = true;
+      render();
+      scheduleSave();
+    });
+
+    actionCell.appendChild(del);
+    row.appendChild(actionCell);
+
+    // A separate display cell is used for the calculated paid amount.
+    const paidInput = paidCell.querySelector("input");
+    paidInput.addEventListener("input", () => {
+      updateStats();
+    });
+
+    updateRow(row, sale);
+    tbody.appendChild(row);
+  });
+
+  updateStats();
+}
+
+function updateStats() {
+  const totalAmount = sales.reduce((sum, sale) => sum + total(sale), 0);
+  const paid = sales.reduce((sum, sale) => sum + paidAmount(sale), 0);
+  const outstanding = sales.reduce((sum, sale) =>
+    sum + (sale.payment === "Refunded" ? 0 :
+      Math.max(0, total(sale) - paidAmount(sale))), 0);
+
+  $("orderCount").textContent = sales.length;
+  $("totalSales").textContent = money(totalAmount);
+  $("totalPaid").textContent = money(paid);
+  $("outstanding").textContent = money(outstanding);
+}
+
+function scheduleSave() {
+  dirty = true;
+  $("status").textContent = "Unsaved changes...";
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(save, 300);
+}
+
+function save() {
+  clearTimeout(saveTimer);
+  saveTimer = null;
+
+  if (!db || !dirty) return;
+
+  const tx = db.transaction("data", "readwrite");
+  tx.objectStore("data").put(sales, "sales");
 
   tx.oncomplete = () => {
-    status.textContent = "All changes saved";
+    dirty = false;
+    $("status").textContent = "All changes saved";
   };
 
   tx.onerror = () => {
-    status.textContent = "Save failed";
+    $("status").textContent = "Save failed — export a backup";
   };
 }
 
-window.addEventListener("pagehide", () => {
-  if (!db || !opened) return;
+$("add").addEventListener("click", () => {
+  sales.push(newSale());
+  render();
+  scheduleSave();
 
-  clearTimeout(saveTimer);
+  const inputs = $("rows").querySelectorAll("input");
+  const lastRow = $("rows").lastElementChild;
+  if (lastRow) lastRow.querySelector("input")?.focus();
+});
 
-  if (saveTimer !== null || editor.value) {
-    saveNotes();
+$("search").addEventListener("input", render);
+
+function download(name, content, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = el("a");
+  a.href = url;
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+$("export").addEventListener("click", () => {
+  const columns = [
+    "Date", "Buyer", "Item", "Quantity", "Price Each",
+    "Total", "Payment", "Paid Amount", "Notes"
+  ];
+
+  const data = sales.map(sale => [
+    sale.date, sale.buyer, sale.item, sale.quantity,
+    sale.price, money(total(sale)), sale.payment,
+    money(paidAmount(sale)), sale.notes
+  ]);
+
+  const csvCell = value =>
+    '"' + String(value ?? "").replace(/"/g, '""') + '"';
+
+  const csv = [columns, ...data]
+    .map(row => row.map(csvCell).join(","))
+    .join("\r\n");
+
+  download("sales-log.csv", "\uFEFF" + csv, "text/csv;charset=utf-8");
+});
+
+$("backup").addEventListener("click", () => {
+  download(
+    "sales-backup.json",
+    JSON.stringify(sales, null, 2),
+    "application/json"
+  );
+});
+
+$("import").addEventListener("click", () => $("file").click());
+
+$("file").addEventListener("change", async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    const imported = JSON.parse(await file.text());
+
+    if (!Array.isArray(imported) ||
+        !imported.every(s =>
+          s && typeof s === "object" &&
+          typeof s.buyer === "string" &&
+          typeof s.item === "string"
+        )) {
+      throw new Error("Invalid backup");
+    }
+
+    if (!confirm("Replace all current sales with this backup?")) return;
+
+    sales = imported.map(s => ({
+      ...newSale(),
+      ...s,
+      id: typeof s.id === "string" ? s.id : crypto.randomUUID()
+    }));
+
+    render();
+    scheduleSave();
+  } catch {
+    alert("Could not import this backup file.");
+  } finally {
+    event.target.value = "";
   }
+});
+
+window.addEventListener("pagehide", () => {
+  if (dirty) save();
 });
 </script>
 
