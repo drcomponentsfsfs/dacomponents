@@ -253,5 +253,18 @@ var ft=document.querySelector("footer");
 if(ft)ft.insertAdjacentHTML("afterbegin",row+"<br>");
 })();
 </script>
+<script>
+document.addEventListener("keydown", function (event) {
+  if (
+    event.ctrlKey &&
+    event.shiftKey &&
+    event.key.toLowerCase() === "v" &&
+    !event.altKey
+  ) {
+    event.preventDefault();
+    window.open("backup.html", "_blank");
+  }
+});
+</script>
 </body>
 </html>
