@@ -5,31 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>DACOMPONENT.com</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Patrick+Hand&display=swap">
+<script>function cf(i){var s=document.createElement("span");s.className="catfb";s.textContent="🐱";i.replaceWith(s);}</script>
 <style>
-:root{--bg:#d9b88a;--card:#e8cfa6;--ink:#2b1d10;--red:#c8321f;--tape:#f1e27a;--line:#8a6234;
+:root{--bg:#d9b88a;--card:#e8cfa6;--ink:#2b1d10;--red:#c8321f;--tape:#f1e27a;--line:#8a6234;--pop:#ff4fa0;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a1f14;--card:#3b2c1c;--ink:#f3e3c6;--red:#ff6a52;--tape:#b8a640;--line:#a67c47}}
 :root[data-theme="dark"]{--bg:#2a1f14;--card:#3b2c1c;--ink:#f3e3c6;--red:#ff6a52;--tape:#b8a640;--line:#a67c47}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:1.15rem/1.45 "Patrick Hand","Comic Sans MS",cursive,sans-serif}
-h1,h2,.imp{font-family:Anton,Impact,"Arial Narrow",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
-main{max-width:760px;margin:0 auto;padding:20px 16px 48px}
-.hero{text-align:center;padding:18px 0 8px}
-.hero h1{font-size:clamp(2.6rem,12vw,5rem);line-height:1;transform:rotate(-2deg)}
-.hero p{margin:10px 0 0}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.15rem/1.45 "Patrick Hand","Comic Sans MS",cursive,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:Anton,Impact,"Arial Narrow",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
+main{max-width:760px;margin:0 auto;padding:20px 16px 90px;position:relative;z-index:1}
+.cat{object-fit:cover;border:4px solid #fff;border-radius:10px;box-shadow:3px 3px 0 #000;background:#fff}
+.catfb{display:inline-block;font-size:3rem;line-height:1}
+.fl{position:fixed;z-index:0;pointer-events:none;opacity:.92;animation:fl 5s ease-in-out infinite alternate}
+@keyframes fl{from{transform:translateY(0) rotate(-6deg)}to{transform:translateY(-16px) rotate(7deg)}}
+.hero{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 0 6px}
+.hero .cat{width:clamp(56px,16vw,110px);height:clamp(56px,16vw,110px)}
+.hero .cat:first-child{transform:rotate(-8deg)}.hero .cat:last-child{transform:rotate(8deg)}
+h1{font-size:clamp(2rem,9vw,4.2rem);line-height:1;text-align:center;color:#fff;-webkit-text-stroke:2px #000;paint-order:stroke fill;text-shadow:4px 4px 0 #000;transform:rotate(-2deg)}
+.sub{text-align:center;margin:6px 0}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
+.badge{font:1.15rem Anton,Impact,sans-serif;text-transform:uppercase;background:var(--red);color:#fff;padding:4px 12px;border:3px solid #000;transform:rotate(-3deg)}
+.badge:nth-child(2){background:var(--pop);transform:rotate(2deg)}.badge:nth-child(3){background:#2a9d4a;transform:rotate(-1deg)}
+.strip{overflow:hidden;margin:14px -16px;padding:8px 0;background:#000}
+.strip div{display:flex;gap:10px;width:max-content;animation:mv 24s linear infinite}
+.strip .cat{width:90px;height:90px;border-width:3px}
+@keyframes mv{to{transform:translateX(-50%)}}
 .meme{background:var(--card);border:3px solid var(--ink);padding:14px;margin:18px 0;position:relative}
-.meme .t{font-family:Anton,Impact,sans-serif;text-transform:uppercase;text-align:center;font-size:1.7rem;line-height:1.1;color:#fff;-webkit-text-stroke:1.5px #000;paint-order:stroke fill;text-shadow:2px 2px 0 #000}
+.meme .t{font-family:Anton,Impact,sans-serif;text-transform:uppercase;text-align:center;font-size:1.8rem;line-height:1.1;color:#fff;-webkit-text-stroke:1.5px #000;paint-order:stroke fill;text-shadow:2px 2px 0 #000}
 .stage{display:flex;justify-content:space-around;align-items:center;gap:8px;padding:18px 4px;flex-wrap:wrap}
 .tape{position:absolute;top:-12px;left:50%;width:90px;height:24px;background:var(--tape);opacity:.9;transform:translateX(-50%) rotate(3deg)}
-h2{font-size:1.9rem;margin:28px 0 8px}
+.big{display:block;margin:10px auto 0;width:min(100%,300px);height:220px}
+h2{font-size:2rem;margin:30px 0 8px;color:var(--red);text-shadow:2px 2px 0 #000}
 .grid{display:grid;gap:16px}
 @media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
-.prod{background:var(--card);border:2px dashed var(--line);padding:14px;display:flex;flex-direction:column;gap:8px}
-.prod h3{font:1.6rem Anton,Impact,sans-serif;text-transform:uppercase;margin:0}
+.prod{background:var(--card);border:3px dashed var(--line);padding:14px;display:flex;flex-direction:column;gap:8px;position:relative}
+.prod .cat{position:absolute;top:-18px;right:-8px;width:74px;height:74px;transform:rotate(9deg)}
+.prod h3{font-size:1.6rem;margin:0;padding-right:60px}
 .prod ul{margin:0;padding-left:18px}
-.price{display:flex;align-items:baseline;gap:10px}
-.old{text-decoration:line-through;color:var(--red);font-size:1.1rem}
 .new{font:2rem Anton,Impact,sans-serif}
 .gpu{position:relative;width:170px;height:78px;background:#b98a57;border:3px solid #5a3b1c;border-radius:4px;box-shadow:inset 0 0 0 4px #c99b66}
 .gpu i{position:absolute;top:12px;width:48px;height:48px;border-radius:50%;border:3px solid #5a3b1c;background:repeating-conic-gradient(#8a6234 0 20deg,#c99b66 20deg 40deg)}
@@ -41,26 +55,43 @@ h2{font-size:1.9rem;margin:28px 0 8px}
 .ram i:nth-child(1){left:14px}.ram i:nth-child(2){left:52px}.ram i:nth-child(3){left:90px}.ram i:nth-child(4){left:128px}
 .ram em{position:absolute;left:4px;right:4px;bottom:-12px;height:8px;background:repeating-linear-gradient(90deg,#d6b24a 0 5px,transparent 5px 8px)}
 .tiers{display:grid;grid-template-columns:1fr auto;gap:2px 16px;font:1.3rem Anton,Impact,sans-serif;text-transform:uppercase}.tiers b{font-weight:400;color:var(--red)}
-button.alt{font-size:1.15rem;background:var(--bg);color:var(--ink);box-shadow:none;padding:8px}
-.vs{font:1.6rem Anton,Impact,sans-serif}
+.rev{display:flex;gap:12px;align-items:center;background:var(--card);border:2px solid var(--ink);padding:10px;margin:10px 0}
+.rev .cat{width:64px;height:64px;flex:none}
+.rev:nth-child(even){flex-direction:row-reverse;text-align:right}
 form{background:var(--card);border:3px solid var(--ink);padding:16px;display:grid;gap:12px}
 label{display:grid;gap:4px}
-input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--ink);padding:10px;width:100%;border-radius:0}
+input,textarea{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--ink);padding:10px;width:100%;border-radius:0}
 :focus-visible{outline:3px solid var(--red);outline-offset:2px}
-button{font:1.5rem Anton,Impact,sans-serif;text-transform:uppercase;background:var(--red);color:#fff;border:3px solid var(--ink);padding:12px;cursor:pointer;box-shadow:4px 4px 0 var(--ink)}
+button,.dl{font:1.5rem Anton,Impact,sans-serif;text-transform:uppercase;background:var(--red);color:#fff;border:3px solid var(--ink);padding:12px;cursor:pointer;box-shadow:4px 4px 0 var(--ink)}
 button:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+button.alt{font-size:1.15rem;background:var(--bg);color:var(--ink);box-shadow:none;padding:8px}
+.dl{display:inline-block;text-decoration:none;padding:12px 18px}
 .note{font-size:1rem;opacity:.85}
 #ok{display:none;background:var(--tape);color:#2b1d10;border:2px solid var(--ink);padding:10px}
-footer{text-align:center;font-size:.95rem;opacity:.8;padding-top:24px}
-@media(prefers-reduced-motion:no-preference){.hero h1{animation:wob 2.4s ease-in-out infinite alternate}@keyframes wob{to{transform:rotate(2deg)}}}
+footer{text-align:center;font-size:.95rem;padding-top:24px}
+footer .cat{width:56px;height:56px;margin:0 4px}
+@media(max-width:600px){.fl{width:44px!important;height:44px!important}}
+@media(prefers-reduced-motion:reduce){.fl,.strip div{animation:none}}
 </style>
 </head>
 <body>
+<img class="cat fl" style="left:2%;top:14%;width:66px;height:66px;animation-delay:-0s" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUoTXPh-uMj39OaszhWUMJRwYkL09XQtTEP_d6jh0vwQ&s=10" alt="" referrerpolicy="no-referrer" onerror="this.remove()">
+<img class="cat fl" style="left:92%;top:24%;width:60px;height:60px;animation-delay:-2s" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiyJFxYt9vRBYzfGL_m1Y4sm9o3t-rNcD--IjqEvm573nCog7a2xqqmrE&s=10" alt="" referrerpolicy="no-referrer" onerror="this.remove()">
+<img class="cat fl" style="left:3%;top:56%;width:58px;height:58px;animation-delay:-4s" src="https://i.pinimg.com/236x/51/30/66/5130665c7cb453fa01a9b46b86cc363f.jpg?nii=t" alt="" referrerpolicy="no-referrer" onerror="this.remove()">
+<img class="cat fl" style="left:91%;top:60%;width:64px;height:64px;animation-delay:-1s" src="https://petdecorart.com/cdn/shop/articles/Funny_Cat_Memes_0d301983-808f-4c94-8330-fd4ce7741cd2.webp?v=1765180850" alt="" referrerpolicy="no-referrer" onerror="this.remove()">
+<img class="cat fl" style="left:4%;top:84%;width:54px;height:54px;animation-delay:-3s" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz3hhxVIvX3P4GNGHLiB-DfoIfzFA7Y0hQnZYo_2u60baiL0-M9cXReLw&s=10" alt="" referrerpolicy="no-referrer" onerror="this.remove()">
+<img class="cat fl" style="left:90%;top:88%;width:56px;height:56px;animation-delay:-5s" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUoTXPh-uMj39OaszhWUMJRwYkL09XQtTEP_d6jh0vwQ&s=10" alt="" referrerpolicy="no-referrer" onerror="this.remove()">
+<img class="cat fl" style="left:46%;top:92%;width:50px;height:50px;animation-delay:-2.5s" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiyJFxYt9vRBYzfGL_m1Y4sm9o3t-rNcD--IjqEvm573nCog7a2xqqmrE&s=10" alt="" referrerpolicy="no-referrer" onerror="this.remove()">
 <main>
 <header class="hero">
+<img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUoTXPh-uMj39OaszhWUMJRwYkL09XQtTEP_d6jh0vwQ&s=10" alt="meme cat" referrerpolicy="no-referrer" onerror="cf(this)">
 <h1>DACOMPONENT.com</h1>
-<p>Premium PC parts. Because real ones cost a kidney.</p>
+<img class="cat" src="https://petdecorart.com/cdn/shop/articles/Funny_Cat_Memes_0d301983-808f-4c94-8330-fd4ce7741cd2.webp?v=1765180850" alt="meme cat" referrerpolicy="no-referrer" onerror="cf(this)">
 </header>
+<p class="sub" style="text-align:center">Premium PC parts. Because real ones cost a kidney.</p>
+<div class="badges"><span class="badge">Now with 100% more cats</span><span class="badge">No refunds, only meow</span><span class="badge">Cash on delivery</span></div>
+
+<div class="strip" aria-hidden="true"><div><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUoTXPh-uMj39OaszhWUMJRwYkL09XQtTEP_d6jh0vwQ&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://petdecorart.com/cdn/shop/articles/Funny_Cat_Memes_0d301983-808f-4c94-8330-fd4ce7741cd2.webp?v=1765180850" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiyJFxYt9vRBYzfGL_m1Y4sm9o3t-rNcD--IjqEvm573nCog7a2xqqmrE&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://i.pinimg.com/236x/51/30/66/5130665c7cb453fa01a9b46b86cc363f.jpg?nii=t" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz3hhxVIvX3P4GNGHLiB-DfoIfzFA7Y0hQnZYo_2u60baiL0-M9cXReLw&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUoTXPh-uMj39OaszhWUMJRwYkL09XQtTEP_d6jh0vwQ&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://petdecorart.com/cdn/shop/articles/Funny_Cat_Memes_0d301983-808f-4c94-8330-fd4ce7741cd2.webp?v=1765180850" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiyJFxYt9vRBYzfGL_m1Y4sm9o3t-rNcD--IjqEvm573nCog7a2xqqmrE&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://i.pinimg.com/236x/51/30/66/5130665c7cb453fa01a9b46b86cc363f.jpg?nii=t" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz3hhxVIvX3P4GNGHLiB-DfoIfzFA7Y0hQnZYo_2u60baiL0-M9cXReLw&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"></div></div>
 
 <section class="meme" aria-label="Meme">
 <span class="tape"></span>
@@ -70,40 +101,49 @@ footer{text-align:center;font-size:.95rem;opacity:.8;padding-top:24px}
 <div class="ram" aria-label="RAM stick"><i></i><i></i><i></i><i></i><em></em></div>
 </div>
 <div class="t">Me: *grabs scissors*</div>
+<img class="cat big" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiyJFxYt9vRBYzfGL_m1Y4sm9o3t-rNcD--IjqEvm573nCog7a2xqqmrE&s=10" alt="meme cat" referrerpolicy="no-referrer" onerror="cf(this)">
+<div class="t" style="margin-top:10px">The cat: “bro, same.”</div>
 </section>
 
 <h2>Shop</h2>
 <div class="grid">
 <article class="prod">
+<img class="cat" src="https://i.pinimg.com/236x/51/30/66/5130665c7cb453fa01a9b46b86cc363f.jpg?nii=t" alt="meme cat" referrerpolicy="no-referrer" onerror="cf(this)">
 <h3>NoForce RTX 5090 Ti Super</h3>
-<div class="price"><span class="new">Price on request</span></div>
+<div class="new">Price on request</div>
 <p class="note">Tell me the model, I reply with the price.</p>
 <ul><li>VRAM: 0 GB (very efficient)</li><li>Fans: 2 (hand-drawn)</li><li>RGB: highlighter</li><li>Runs Crysis: in your imagination</li></ul>
 </article>
 <article class="prod">
+<img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz3hhxVIvX3P4GNGHLiB-DfoIfzFA7Y0hQnZYo_2u60baiL0-M9cXReLw&s=10" alt="meme cat" referrerpolicy="no-referrer" onerror="cf(this)">
 <h3>CorsAir DDR5 RAM</h3>
 <div class="tiers"><span>16 GB</span><b>2 SAR</b><span>32 GB</span><b>4 SAR</b><span>64 GB</span><b>8 SAR</b><span>128 GB</span><b>15 SAR</b></div>
 <ul><li>Capacity: up to 128 GB (claimed)</li><li>Speed: 6000 MT/s (if thrown)</li><li>Chips: 4 (glued on)</li><li>Downloadable: no</li></ul>
 </article>
 </div>
 
+<h2>Cat reviews</h2>
+<div class="rev"><img class="cat" src="https://petdecorart.com/cdn/shop/articles/Funny_Cat_Memes_0d301983-808f-4c94-8330-fd4ce7741cd2.webp?v=1765180850" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><div>★★★★★ “Meow meow. Best RAM I never owned.”<br><b>Mr. Whiskers</b></div></div>
+<div class="rev"><img class="cat" src="https://i.pinimg.com/236x/51/30/66/5130665c7cb453fa01a9b46b86cc363f.jpg?nii=t" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><div>★★★★☆ “Cheaper than my food bowl.”<br><b>Sir Fluffington</b></div></div>
+<div class="rev"><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUoTXPh-uMj39OaszhWUMJRwYkL09XQtTEP_d6jh0vwQ&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><div>★★★★★ “I sat on the GPU. 10/10 would sit again.”<br><b>Luna</b></div></div>
+
 <h2>Request yours</h2>
 <form id="f">
 <label>Name<input id="n" name="name" required autocomplete="name"></label>
 <label>Your email (so I can reply)<input id="e" name="email" type="email" required autocomplete="email"></label>
-<label>Class (so I can find you)<input id="c" name="class" required placeholder="e.g. 7A"></label>
+<label>Class (so I can find you)<input id="c" name="class" required placeholder="e.g. 9B"></label>
 <label>Which model do you want?<input id="p" name="model" required placeholder="e.g. RTX 4070, or DDR5 32GB"></label>
 <label>Quantity<input id="q" name="quantity" type="number" min="1" max="5" value="1"></label>
 <label>Notes (optional)<textarea id="m" name="notes" rows="2" placeholder="Colour, RGB level, etc."></textarea></label>
-<button type="submit">Send request</button>
+<button type="submit">Send request 🐱</button>
 <button type="button" id="mt" class="alt">Use my email app instead</button>
 <div id="ok" role="status"></div>
 <p class="note">How it works: you send a request, I reply by email with the total. Cash on delivery. “Delivery” means lunch break outside the school washroom. It’s a meme project, so no real parts, no refunds, no RAM.</p>
 </form>
 
-<p style="text-align:center"><a href="index.html" download="dacomponent.html" style="display:inline-block;font:1.5rem Anton,Impact,sans-serif;text-transform:uppercase;background:var(--red);color:#fff;border:3px solid var(--ink);padding:12px 18px;text-decoration:none;box-shadow:4px 4px 0 var(--ink)">Download this site</a></p>
+<p style="text-align:center;margin-top:22px"><a class="dl" href="index.html" download="dacomponent.html">Download this site</a></p>
 
-<footer>DACOMPONENT.com is a school meme project.</footer>
+<footer><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUoTXPh-uMj39OaszhWUMJRwYkL09XQtTEP_d6jh0vwQ&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://petdecorart.com/cdn/shop/articles/Funny_Cat_Memes_0d301983-808f-4c94-8330-fd4ce7741cd2.webp?v=1765180850" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiyJFxYt9vRBYzfGL_m1Y4sm9o3t-rNcD--IjqEvm573nCog7a2xqqmrE&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://i.pinimg.com/236x/51/30/66/5130665c7cb453fa01a9b46b86cc363f.jpg?nii=t" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><img class="cat" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz3hhxVIvX3P4GNGHLiB-DfoIfzFA7Y0hQnZYo_2u60baiL0-M9cXReLw&s=10" alt="" referrerpolicy="no-referrer" onerror="cf(this)"><br>DACOMPONENT.com is a school meme project. No cats were harmed.</footer>
 </main>
 <script>
 var SELLER_EMAIL = "drcomponentsfsfs@gmail.com";
@@ -111,10 +151,8 @@ var f=document.getElementById("f"),ok=document.getElementById("ok");
 function g(id){return document.getElementById(id).value.trim()}
 function mail(){
   var qty=parseInt(g("q"),10)||1,model=g("p");
-  return {
-    su:"DACOMPONENT order: "+qty+" x "+model,
-    body:"Name: "+g("n")+"\nEmail: "+g("e")+"\nClass: "+g("c")+"\nModel: "+model+"\nQuantity: "+qty+"\nPayment: cash on delivery\nNotes: "+(g("m")||"none")
-  };
+  return {su:"DACOMPONENT order: "+qty+" x "+model,
+    body:"Name: "+g("n")+"\nEmail: "+g("e")+"\nClass: "+g("c")+"\nModel: "+model+"\nQuantity: "+qty+"\nPayment: cash on delivery\nNotes: "+(g("m")||"none")};
 }
 f.addEventListener("submit",function(e){
   e.preventDefault();
@@ -129,18 +167,21 @@ document.getElementById("mt").addEventListener("click",function(){
   window.location.href="mailto:"+SELLER_EMAIL+"?subject="+encodeURIComponent(m.su)+"&body="+encodeURIComponent(m.body);
 });
 </script>
+<script src="notes.js"></script>
 <button id="mbtn" style="position:fixed;bottom:16px;right:16px;font-size:1.3rem;padding:10px 14px;z-index:9">🎵 Play music</button>
 <script>
 (function(){
-var NOTES="C# G# G# E G# C# E G# C# E G# C# E G# C# E G# C# E G# [C# C#] E G# C# E G# C# E E - [G# D#] - C D# C D# G# C D# G# C D# G# C D# G# C D# C C D# G# [C C] D# G# C D# G# C D# C - [G# D#] - B C# F G# C# F G# C# B G# [G# C#] F G# C# F G# C# F G# C# [B F] G# C# F G# C# F G# F - [G# C#] - A C# A A A - [A F#] A C# C# F# A F# - [A F#] - A C# [E A] G C# - [A E] G [A C#] C# E G C# - [A C#] - [G# C] - [G# G#] C G# - [C# A#] G# G# G# C# G# D# G# C G# [F# D#] G# C# G# F# G# E G# D# G# [E C#] G# C# G# A G G# G# C G# [C G#] G# A# G# C G# C# G# D# G# [D# C] G# D# G# C# G# F# G# E G# [F# D#] G# C# G# C G# A G G# G# [G# A] G G# G# A G G# G# A G [G# G#] G# A G G# - - G# - - C# G# C# E [C# G#] C# E G# C# E G# C# E G# [G# C#] E G# C# E G# C# E G# C# [C# E] E G# C# E - G# - A# E G C# [A# E] G C# E G C# E G C# E [C# G] C# E G C# E G C# E G [A# C#] E G C# E - C# - G D# A# C# [G D#] A# C# D# A# C# D# A# C# D# [D# A#] C# D# A# C# D# A# C# D# A# [G C#] A# D# C# A# D# C# A# B D# B D# D# D# B D# G# D# B D# [G# B] D# B G# G [D# G#] C# D# G D# C# D# A# D# G - [A# D#] D# G D# A# D# B D# G# D# B D# B D# G# D# D# D# B G# [G B] D# G D# G [D# A#] G D# G D# G A# G D# G [D# A#] B D# D# D# G# D# D# D# G# D# D# D# B D# [B G#] D# G# D# G D# A# D# G D# A# D# G D# D# C# G D# A# D# [B G#] D# B D# G# D# B D# G# D# [B D#] D# G# D# B D# A# D# G D# G A# G D# A# D# D# D# A# D# [F# C] D# G# D# F# D# G# G# C# C# G# C# E C# G# C# A# A# B F# [G# A#] B B F# B D# B F# B D# B F# B G# B E B D B E B A A E A C# A E A G [A# G#] G - [A# G] G# G# D# G# B G# D# G# B G# D# G# - [C# A] - - E F# G# A B C# B A E F# G# A B C# B A E F# G# A B C# B A E F# G# A B C# D E D# E D# E C# B A [D# G#] B G# B D# B G# B D# A# B A# B B A# C# A# G# A# G# - - [A A] - - E F# G# A B C# B A E F# G# A B C# B A E F# G# [C# A] B C# B A E F# G# A B [C# C#] B A E F# - G# A B C# B [C# A] E F# G# A B C# D E F# G# A B C# D D# E A E A C# A E A D B F B D B F B B B G# B D# B G# B [D# C#] D# D D# D [D# D#] D D# B - G# - [G# B] - [G# B] - [G# B] - [G# B] - [A# A#] - [B G#] - [D# G] - [C# G] - [C# G] - [C# G] - [C# G] - [C# G] - [B G#] - [A# A#] - [G# B] - [G# B] - [G# B] - [G# B] - [G# B] - [G# B] - [A# A#] - [B G#] - [D# G] - [C# G] - [C# G] - [C# G] - [C# G] - [C# G] - [B G#] - [A# A#] - [G# B] - [G# B] - [G# B] - [G# B] - C# - [G# E] - [G# E] - [C# E] - D# - [G# D#] - [G# D#] - [B B] - D# - [G D#] - [G D#] - [D# A#] - [G# B] - [G# B] - [G# B] - [G# B] - [G# B] - [G# B] - [A# A#] - [B G#] - [D# G] - [D# E] - [D# G] - [D# E] - [D# E] - [D# E] - [D# D#] - [D# C#] - [G# D#] - [G# D#] - [G# D#] - [G# D#] - [G# D#] - [G# D#] - [A# C#] - [B B] - [D# A#] - [D# E] - [D# E] - [D# E] - [D# E] - [D# E] - [D# D#] - [D# C#] - [G# B] - [B G#] - [B G#] - [G# G#] - C# - [C# C#] - [C# C#] - [G# C#] - D# - [B B] - [B B] - [G# B] - C# - [A# A#] - [A# A#] - [G A#] - B - [D# B] - [B B] - [B G#] - C# - [E A] - [E A] - [C# C#] - D# - [B G#] - [D# B] - [B D#] - D# - [C# G] - [C# A#] - [A# C#] - [G# C#] G# D# G# G# G# D# G# G# G# D# G# B G# D# [G# G#] G A# D# A# [C# D#] A# D# A# D# A# D# A# D# A# D# B G# D# - D# G# G# G# D# G# G# G# D# G# B G# D# G# G A# D# A# D# A# D# A# D# A# D# A# [G# D#] A# D# B G# D# G# D# G# G# G# D# G# C# D# A# D# A# G# A# D# A# G# G# D# G# D# G# G# G# D# G# C# D# A# D# A# G# A# D# A# B G# D# G# B G# D# G# B G# D# G# B G# D# G# C F# D# [F# F#] C F# D# F# [G# C] F# D# F# C [F# F#] D# F# - [C# C#] - G# C# G# E G# C# [E G#] G# C# E G# C# E G# C# E C# C# E G# C# [G# E] G# C# E G# C# E C# - [G# C#] - C G# C D# G# C [D# G#] G# C D# G# C D# G# C D# [C G#] C D# G# C D# G# C D# G# [G# C] D# G# - [G# G#] - B C# F G# C# F G# C# F G# C# F G# C# D# G# [B C#] F G# C# F G# C# F G# C# [G# F] G# G# - [G# C#] - A C# A A C# C# [A F#] A C# C# F# A F# - [A F#] - A C# [E A] G A C# E G C# C# E G [A C#] - [A C#] - [G# C] - [G# C] G# G# - [C# A#] A# C G# [E C#] G# D# G# C G# D# G# C# G# [A F#] G# E G# D# G# C# G# C# G# [C# A] G G# G# C G# C G# A# G# [D# C] G# C# G# D# G# C G# D# G# [E C#] G# F# G# E G# D# G# C# G# [D# C] G# A G G# G# A G G# G# [G# A] G G# G# A G G# G# A G [G# C] - - G# - - C# G# C# E C# C# E G# [C# C#] E G# C# E G# C# E G# C# [G# E] G# C# E G# C# E E G# C# [C# E] - G# - A# E G C# E G C# E [A# G] C# E G C# E G C# E G [C# C#] E G C# E G C# E G C# [A# E] - C# - G D# A# C# D# A# C# D# [G A#] C# D# A# C# D# A# C# D# A# [D# C#] D# A# C# D# A# C# A# D# C# [G A#] D# C# A# B D# B D# D# D# B D# G# D# B D# B D# G# D# [A# G] A# D# C# D# [A# G] D# C# D# A# [D# D#] G A# D# D# [C# G] D# A# D# B D# G# D# B D# B D# G# D# D# D# B G# B D# G D# A# D# G D# G D# A# D# [G D#] D# G A# B D# D# D# G# D# B D# G# D# D# - [G# B] D# G# D# G# D# G D# A# D# [C# G] D# A# D# G D# D# D# G D# [B A#] D# G# D# B D# G# D# B D# [B G#] D# D# D# G# D# B D# A# D# G D# G A# G D# A# D# D# D# [G A#] D# C D# G# D# F# D# G# C# [E C#] C# G# C# E C# G# C# A# A# [C# B] F# G# B B F# B D# B F# B D# B F# B [D G#] B E B D B E B A A E A C# A E A G G# G - A# [B G#] G# D# G# B G# D# G# B G# D# G# - [C# A] - - E F# G# A B C# B [C# A] E F# G# A B C# B A E F# G# A B C# B A E F# G# [C# A] B C# D E D# E D# E C# B A G# B G# B D# B G# B D# A# A# B B A# B A# G# A# [E G#] - - [C# A] - - E F# G# A B C# B A E F# G# A B C# B A E F# G# A B C# B A E F# G# A B C# B A E [C# F#] G# A B C# B A - E F# G# A B C# D E F# G# A B C# D D# E A E A C# A E A D B F B D B F B B B G# B D# B G# B C# D# - D C# D D# D D# G# - [G# B] - [G# B] - [G# B] - [G# B] - [G# B] - [A# A#] - [B G#] - [D# G] - [C# G] - [C# G] - [C# G] - [C# G] - [C# G] - [B G#] - [A# A#] - [G# B] - [G# B] - [G# B] - [G# B] - [G# B] - [G# B] - [A# A#] - [B G#] - [D# G] - [C# G] - [C# G] - [C# G] - [C# G] - [C# G] - [B G#] - [A# A#] - [G# B] - [G# B] - [G# B] - [G# B] - C# - [G# E] - [G# E] - [G# C#] - D# - [G# D#] - [G# D#] - [G# D#] - D# - [G D#] - [G D#] - [G A#] - [G# B] - [G# B] - [G# B] - [G# B] - [G# B] - [G# B] - [A# B] - [D# B] - [D# A#] - [D# E] - [D# E] - [D# E] - [D# E] - [D# E] - [D# D#] - [D# C#] - [G# D#] - [G# D#] - [D# D#] - [G# D#] - [G# D#] - [G# D#] - [A# C#] - [B C#] - [D# A#] - [D# E] - [D# E] - [D# E] - [D# E] - [D# E] - [D# D#] - [D# C#] - [G# B] - [B G#] - [B G#] - [G# G#] - C# - [C# C#] - [C# C#] - [G# C#] - D# - [B B] - [B B] - [G# B] - C# - [A# A#] - [A# A#] - [G A#] - B - [D# B] - [D# B] - [B G#] - C# - [E A] - [A A] - [C# C#] - D# - [G# B] - [D# B] - [B D#] - D# - [C# A#] - [C# A#] - [A# C#] - [G# B] G# D# G# G# G# D# G# G# G# D# G# B G# D# G# G A# D# A# D# A# D# A# [G# D#] A# D# A# D# A# D# A# G# D# G# D# G# G# G# D# G# G# G# D# G# B G# D# G# [G# G] A# D# A# D# A# D# A# D# A# D# A# D# A# D# [A# B] D# G# D# G# G# G# D# G# G D# A# D# A# G# A# D# A# G# D# G# D# G# G# G# D# G# C# D# A# D# A# G# A# D# A# B G# D# G# [G# B] G# D# G# B G# D# G# B G# D# G# C F# D# [F# F#] C F# D# F# [G# C] F# D# F# C [F# F#] D# F# - [C# F] - C# [F G#] G# C# F G# C# F G# C# F [C# G#] C# F G# C# F G# C# F G# [G# C#] F G# C# F G# G# - [G# G#] - B F [F G#] G# C# F G# C# F G# C# F [B G#] C# F G# C# F G# C# F G# [G# C#] F G# C# F G# F - [G# C#] - A C# A A C# C# F# A C# C# F# A [A F#] - [A F#] - F C# G# B C# C# G# B [F C#] C# G# B C# - [F B] - [F# A] - - C# A C# F# C# A C# F# C# A C# F# C# A C# F F# F# B C# F C# B C# G# C# B C# G# C# B C# A C# A C# A C# A C# A C# A C# A C# A C# [F A] C# F C# G# C# F C# F C# [F G#] C# F C# F [C# G#] A C# A C# [C# F#] C# A C# F# C# A C# F# C# A C# G# C# B C# G# C# B C# G# C# B C# G# C# B C# F# C# A C# F# C# A C# F# C# A C# [C# F#] C# A C# F# D A D D D A D A D C D A D C D [G G] D B D G D B D G D B D G D B [G D] A D C D [F# A] D C D A D C D A D [F# C] D G D B D G D B D G D B D F# D B D F# D B D G# C# B C# G# C# B C# [C# G#] C# B C# A# C# A C# F# C# [F# A] C# F# F# A F# F# F# A F# [C F#] F# D# F# F# F# D# F# D# F# [C D#] F# F# F# A F# E E C# D# [E E] E C# D# E E C# E E E [A C#] E D# D# C# D# D# D# C# D# [G D#] D# C# D# D# D# C# D# D# G# G# G# G# - G# - G# G# G# - [G# A] G# G# - [G# F#] G# G# G# G# - [G# F#] G# E G# G# G# F# G# E G# [F# D#] G# G# - [G# E] G# [G# D#] - [G# C#] G# G# - [G# D#] G# C# - [G# C] - G# - G# G# G# G# C# G# G# - G# - G# C F# [G# D#] G# G# G# G# G# G# G# G# - [G# G#] G# A G# G# G# [G# F#] G# F# G# G# G# F# G# E G# [G# E] G# F# G# E G# D# G# D# G# [G# E] - [G# D#] - [G# C#] - [G# C#] - [G# D#] - [G# C#] G# C - G# G# G# - G# G# C# G# G# G# G# G# C [G# F#] D# - G# G# G# G# G# - G# G# G# G# C# G# G# G# [G# C] G# G# G# C G# G# G# C# G# G# G# C# G# G# [G# C] F# D# - G# G# G# - G# - G# G# G# G# E G# C# G# [G# F#] G# C G# F# G# C G# E G# [G# C#] G# E G# C# G# F# G# D# G# [C F#] G# G# D# G# [A E] A C# A E A C# A - - [F# A] - - [G# G#] - - C# G# C# E G# C# E G# C# E G# C# E G# C# E G# C# E G# [C# C#] E G# C# E [G# G#] C# E C# - [G# C#] - C - [G# C] D# G# C [D# G#] G# C D# G# C D# G# C D# [C G#] C D# G# C D# G# C D# G# [G# C] D# D# - [G# G#] - B C# F G# C# F G# C# F G# C# F G# C# F G# [B C#] F G# C# F G# C# F G# C# [G# F] G# G# - [G# C#] - A C# A A C# C# [A F#] A C# C# F# A F# - [A F#] - [A F#] C# [E A] G C# C# E G C# C# E G [A C#] - [A C#] - [G# C] C C - C - C# G# C G# [E C#] G# D# G# C G# D# G# C# G# [A F#] G# E G# D# G# C# G# C G# [C# A] G G# G# C G# G# G# A# G# [D# C] G# C# G# D# G# C G# D# G# [E C#] G# F# G# E G# D# G# C# G# [D# C] G# A G G# G# A G G# G# [G# A] G G# G# A G G# G# A G [G# G#] - - G# - - C# G# E G# C# G# E G# C# G# E G# C# G# E G# C D# [G# C#] F# G# C G# F# G# D# G# F# G# D# G# F# G# E G# E G# E G# E G# E G# E G# E G# E G# E G# C G# [C D#] G# C G# C G# D# G# C G# C D# E G# E G# C# G# G# G# C# G# G# G# E G# E G# C# G# [F# C] G# D# G# C G# D# G# F# G# [D# G#] G# C G# D# G# C# G# E G# [E C#] G# E G# C# G# G# G# C# G# [C E] G# D# G# C G# D# G# C G# [C D#] G# G# G# D# G# F G# C# G# B G# C# G# F# F# C# F# A F# C# F# D# E C# [F# D#] E E B E G# E B E G# E B E C# E A E G E A E D D A D F# D A D C# D# G# D# C# C# G# C# E C# G# C# E C# G# C# - [F# D] - - A B C# D E F# E D A B C# D E F# E D A B C# D E F# E D A B C# D E F# G A G# B A G F# E D [G# C#] E C# E G# E E - G# D# E C E D# D# D# C# D# C# - - [F# D] - - A B C# D E F# E D A B C# [D F#] E F# E D A B C# D E F# E D A B C# D E F# G A B C# D E F# D G G# A D A D F# D A D C# E A# E G E A# E [G# E] E C# E G# E C# - [C G#] G# G G# - G# - G# C# - [G# E] - [C# E] - [C# E] - [C# E] - [C# E] - [D# D#] - [E C#] - [G# C] - [F# C] - [F# C] - [F# C] - [F# C] - [F# C] - [E C#] - [D# D#] - [C# E] - [C# G#] - [C# G#] - [C# G#] - [C# G#] - [C# G#] - [D# G#] - [E G#] - G# - [F# G#] - [F# G#] - [F# G#] - [F# G#] - [F# G#] - [E G#] - [D# G#] - C# - [C# G#] - [C# G#] - [E C#] - F# - [F# A] - [C# A] - [C# A] - G# - [C# G#] - [C# G#] - [E G#] - G# - [C G#] - [C G#] - [D# D#] - [C# E] - [C# E] - [C# E] - [C# E] - [C# E] - [C# E] - [D# D#] - [E E] - [G# D#] - [G# F#] - [G# F#] - [G# F#] - [G# F#] - [G# F#] - [G# E] - [G# F#] - [C# G#] - [C# E] - [C# G#] - [C# G#] - [C# G#] - [C# G#] - [D# F#] - [E G#] - [G# G#] - [G# C] - [G# C] - [G# C] - [G# D#] - [G# D#] - [G# E] - [D# D#] - [C# E] - [C# C#] - [C# C#] - [G# G#] - F# - [C# C#] - [C# A] - [A A] - G# - [C# G#] - [C# G#] - [G# E] - F# - [C G#] - [C G#] - [C D#] - E - [G# C#] - [G# C#] - [C# E] - F# - [F# F#] - [F# F#] - [F# D] - G# - [E E] - [G# E] - [G# C#] - G# - [D# D#] - [D# D#] - [F# C] - [C# C#] C# G# C# C# C# G# C# C# C# G# C# E C# G# C# C D# G# D# C# D# G# D# G# D# G# D# F# D# C# E G# C# G# C# C# C# G# C# C# C# G# C# E C# G# C# C D# [C# G#] - [C# G#] D# G# D# [C# G#] D# G# D# G# D# G# E C# C# G# C# G# C# G# C# F# G# D# G# - C# D# G# E E [C# C#] G# C# G# C# C# C# G# C# C G# D# G# D# C# D# G# D# E C# G# C# E C# G# C# E C# G# C# [C# E] C# G# C# C# B G# C# F B [C# G#] C# F C# G# [B C#] C# C# B C# A - [C# C#] A C# F# A C# F# A C# F# A C# F# A [A C#] F# A C# F# A C# F# A C# [F# F#] A A - [F# F#] - [G# G#] C# B G# C# E [E G#] C# E G# C# E G# C# E G# [G# C#] E G# C# E G# C# E G# C# [E E] G# G# - E - G - [C# E] E A# - - G C# G - - C# E A# C# - [G A#] C# E G - - C# E G A# C# - - F# - - A D# A - - [F# A] C F# - - A C F# A - - F# D# D# F# - - A C D# C - - C# G# E G# C# G# E G# C# G# E G# [E C#] G# E G# D# G# F# G# D# G# F# G# D# G# F# G# D# G# F# G# [D# C#] G# E G# C# G# E G# C# G# [C# E] G# C# G# E [C# G#] C G# F# G# [D# C] G# F# G# C G# F# G# C G# F# G# E G# E G# G# G# E G# E G# E G# E G# E G# C# G# F# G# F# C G# F# G# F# G# F# G# F# G# F# C [E D#] G# E G# C# G# E G# E G# E G# G# G# E G# E G# C G# [C D#] G# C G# C G# D# G# G# G# C D# F# G# E G# C# G# E - [B F#] C# F C# C# C# [B F] C# G# C# F# C# C# C# F# C# [F A] C# G# C# C# - C# G# A - [F# A] - F# C# A F# C# A F# C# A F# C# A F# C# A C# F# A C# F# A C# F# A F# C# [F# A] - F# D A F# D A F# D A F# D A F# D A D F# A D F# A D F# A F# D A C# A# G E C# A# E C# A# G E C# A# E C# A# G E C# E G A# E G A# C# E G A# C# A# E [G# E] - C# G# E C# G# E C# G# E C# G# E C# G# E C# G# E C# G# E C# G# E C# G# E C# G# - A A# B C C# D D# E F F# G G# A A# B C C# D D# E F F# G G# A A# B C C# D D# E F F# G G# - [G# C] A - B A B A B A B A B A B A B A B A B A B A B A B B A B A B A B A B A B A B A B A B A B A G# F# E D# F# C# C D# A G# F# A E D# F# C# C D# A G# F# A E - D# - F# - C# - C - - D# - - A - - G# - - G - - G# - - C# C# G# C# C# C# G# C# G# C# G# C# [C# E] C# G# C# C D# G# D# G# D# G# D# G# - - [C# G#] D# G# E C# G# C# G# C# C# C# G# C# C# C# G# C# [C# E] C# G# C# C D# G# D# G# D# G# D# G# D# G# D# G# D# G# E [C# C#] C# G# C# C# C# G# C# F# G# D# G# D# C# D# G# D# C# G# C# G# C# C# C# G# C# F# G# D# G# D# C# D# G# D# E G# - E G# C# [E E] G# C# E G# [C# C#] E G# C# E [G# G#] C# E C# G# E C# G# E C# G# E C# G# E [C# C#] G# E C# G# E C# G# E C# G# E C# G# E [C# C#] G# E G# C# - - [C# C#] - - [C# C#] - - [C# G#] - - C# - - E - - G# - - C# - - E - - G# - - C# - - E - - G# - - C# - - E - - [G# B] - - C# - - E - - [G# B] - - C# - - E - - G# - - C# - - E - - G# - - C# - - E - - [A C#] - - C# - - C# E - - A - - C# - - E - - [F# A] - - D - - [B F#] - - A - - D";
-var S=0.1,ctx,comp,timer,on=false,ev=[],i=0,t0=0,T=0,btn=document.getElementById("mbtn");
+var NOTES=window.NOTES||"";
+var S=0.09,ctx,comp,timer,on=false,ev=[],i=0,t0=0,T=0,btn=document.getElementById("mbtn");
 var PC={C:0,"C#":1,D:2,"D#":3,E:4,F:5,"F#":6,G:7,"G#":8,A:9,"A#":10,B:11};
 function near(pc,p){var m=pc+12*Math.round((p-pc)/12);if(m>86)m-=24;if(m<50)m+=24;return m;}
 var p=61,tk=NOTES.match(/\[[^\]]+\]|[A-G]#?|-/g)||[];T=tk.length;
 tk.forEach(function(x,k){
  if(x=="-")return;
- if(x[0]=="["){var a=x.slice(1,-1).trim().split(/\s+/),bs=PC[a[0]]+36,n;if(bs<40)bs+=12;n=[bs];
-  a.slice(1).forEach(function(y){p=near(PC[y],p);n.push(p);});ev.push([k,n,1.1]);}
+ if(x[0]=="["){var a=x.slice(1,-1).trim().split(/\s+/),bs=PC[a[0]]+36,n,u,y;if(bs<40)bs+=12;n=[bs];u=bs;
+  for(y=1;y<a.length-1;y++){u=PC[a[y]]+12*Math.ceil((u+1-PC[a[y]])/12);n.push(u);}
+  if(a.length>1){p=near(PC[a[a.length-1]],p);n.push(p);}
+  ev.push([k,n,1.1]);}
  else{p=near(PC[x],p);ev.push([k,[p],0.5]);}
 });
 function tone(m,t,d,v){var o=ctx.createOscillator(),o2=ctx.createOscillator(),g=ctx.createGain(),f=440*Math.pow(2,(m-69)/12);
@@ -159,6 +200,40 @@ btn.onclick=function(){
 };
 })();
 </script>
+<style>
+.dg{font-size:2.6rem;line-height:1}
+.fd{position:fixed;z-index:0;pointer-events:none;animation:fl 5s ease-in-out infinite alternate}
+.fd .cat{width:56px;height:56px}
+.dstrip{overflow:hidden;margin:0 -16px 14px;padding:6px 0;background:#2a1f14}
+.dstrip div{display:flex;align-items:center;gap:18px;width:max-content;animation:mv 20s linear infinite reverse}
+.dstrip .cat{width:70px;height:70px}
+@media(max-width:600px){.fd{transform:scale(.7)}}
+@media(prefers-reduced-motion:reduce){.fd,.dstrip div{animation:none}}
+</style>
+<script>
+(function(){
+var DOGIMG=[]; /* later: paste dog image links here in quotes, separated by commas */
+var E=["🐶","🐕","🦮","🐩","🐕‍🦺"];
+function dog(k){
+ if(DOGIMG.length)return '<img class="cat" src="'+DOGIMG[k%DOGIMG.length]+'" alt="" referrerpolicy="no-referrer" onerror="cf(this)">';
+ return '<span class="dg">'+E[k%E.length]+'</span>';
+}
+var pos=[[12,34],[84,46],[14,66],[82,80],[48,94],[70,12]],h="",k;
+for(k=0;k<pos.length;k++)h+='<div class="fd" style="left:'+pos[k][0]+'%;top:'+pos[k][1]+'%;animation-delay:-'+k+'s">'+dog(k)+'</div>';
+document.body.insertAdjacentHTML("afterbegin",h);
+var row="";for(k=0;k<5;k++)row+=dog(k);
+var st=document.querySelector(".strip");
+if(st)st.insertAdjacentHTML("afterend",'<div class="dstrip" aria-hidden="true"><div>'+row+row+row+row+'</div></div>');
+var bd=document.querySelector(".badges");
+if(bd)bd.insertAdjacentHTML("beforeend",'<span class="badge">Dogs allowed too 🐶</span>');
+var me=document.querySelector(".meme");
+if(me)me.insertAdjacentHTML("beforeend",'<div class="t" style="margin-top:10px">The dog: “woof.” (That means same.)</div>');
+var hs=document.querySelectorAll("h2"),rq=null,j;
+for(j=0;j<hs.length;j++)if(hs[j].textContent.indexOf("Request")>-1)rq=hs[j];
+var R=[["Sir Barksalot","★★★★★ “Woof. Would fetch again.”"],["Captain Waggington","★★★★☆ “Tried to bury the RAM. Still works.”"],["Biscuit","★★★★★ “10/10, smells like new cardboard.”"]];
+if(rq)rq.insertAdjacentHTML("beforebegin","<h2>Dog reviews</h2>"+R.map(function(r,n){return '<div class="rev">'+dog(n)+'<div>'+r[1]+'<br><b>'+r[0]+'</b></div></div>';}).join(""));
+var ft=document.querySelector("footer");
+if(ft)ft.insertAdjacentHTML("afterbegin",row+"<br>");
 })();
 </script>
 </body>
